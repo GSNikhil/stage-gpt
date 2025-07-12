@@ -1,0 +1,9 @@
+config:
+  num_layers: 6
+  num_heads: 8
+  d_model: 512
+  d_ff: 2048
+  dropout_rate: 0.1
+  context_length: 512
+  vocab_size: 50257
+  embedding_dim: 512
