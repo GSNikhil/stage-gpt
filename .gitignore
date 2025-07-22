@@ -4,3 +4,4 @@ venv/*
 *scripts/*
 datasets_local/*
 *.ipynb_checkpoints
+*.pt
