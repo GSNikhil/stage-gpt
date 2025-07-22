@@ -104,7 +104,7 @@ class GPTModel(nn.Module):
         self.apply(self._init_weights)
         for name, param in self.named_parameters():
             if name.endswith("projection.weight"):
-                nn.init.normal_(param, mean=0, std=0.02 / math.sqrt(2 * config.num_layers))
+                nn.init.normal_(param, mean=0, std=0.02 / math.sqrt(2 * config['num_layers']))
 
     def _init_weights(self, module):
         if isinstance(module, nn.Linear):
