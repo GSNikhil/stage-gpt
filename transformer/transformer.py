@@ -1,7 +1,7 @@
 import torch.nn as nn
 from torch.nn import functional as F
 import torch
-import yaml
+import math
 
 class MaskedMultiHeadAttention(nn.Module):
     def __init__(self, config):
@@ -99,6 +99,21 @@ class GPTModel(nn.Module):
 
         # Store the config
         self.config = config
+
+        # Initalizer weights
+        self.apply(self._init_weights)
+        for name, param in self.named_parameters():
+            if name.endswith("projection.weight"):
+                nn.init.normal_(param, mean=0, std=0.02 / math.sqrt(2 * config.num_layers))
+
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            nn.init.normal_(module.weight, mean=0, std=0.02)
+            if module.bias is not None:
+                nn.init.zeros_(module.bias)
+        elif isinstance(module, nn.Embedding):
+            nn.init.normal_(module.weight, mean=0, std=0.02)
+
 
     def forward(self, x: torch.Tensor, target:torch.Tensor = None):
         batch_size, n_tokens = x.shape
